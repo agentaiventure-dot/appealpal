@@ -1,0 +1,10 @@
+[project]
+name = "appealpal"
+version = "0.1.0"
+description = "Turn a health-insurance or benefits denial letter into a plain-language explanation, the appeal deadline, an evidence checklist and an appeal letter draft."
+requires-python = ">=3.9"
+dependencies = []
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+[tool.pytest.ini_options]
+testpaths = ["tests"]
