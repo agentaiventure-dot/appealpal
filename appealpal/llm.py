@@ -8,7 +8,7 @@ import urllib.request
 from typing import Any, Dict
 from urllib.parse import urlparse
 
-ALLOWED_ORIGINS = ("https://api.groq.com", "https://api.tokenfactory.nebius.com", "https://api.openai.com")
+ALLOWED_ORIGINS = ("https://api.groq.com", "https://api.tokenfactory.nebius.com", "https://api.openai.com", "https://router.huggingface.co")
 LOOPBACK = ("127.0.0.1", "localhost", "::1")
 
 
