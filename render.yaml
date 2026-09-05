@@ -1,0 +1,23 @@
+# Render Blueprint for a card-free free-tier deployment of AppealPal.
+# See docs/deploy-render.md for exact dashboard steps and how to switch to a real model.
+services:
+  - type: web
+    name: appealpal
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /healthz
+    envVars:
+      - key: HOST
+        value: "0.0.0.0"
+      - key: APPEALPAL_PUBLIC
+        value: "1"
+      - key: APPEALPAL_DEMO
+        value: "1"
+      - key: APPEALPAL_RATE_LIMIT_PER_MIN
+        value: "30"
+      # PORT is supplied by Render itself at runtime; do not set it here.
+      # To use a real model instead of the demo, set APPEALPAL_DEMO to "0" and add:
+      #   LLM_API_KEY, LLM_BASE_URL, LLM_MODEL
+      # as additional envVars (or via the Render dashboard, marked "sync: false" if you
+      # keep this file in a public repo so the key is never committed).
