@@ -24,3 +24,38 @@ Your request for prior authorization of physical therapy (12 visits) has been de
 Reason: The number of visits requested exceeds the plan limit of 8 visits per calendar year without a documented functional improvement report.
 You may file an appeal within 60 days of receiving this notice by submitting the appeal form on the member portal.
 """
+
+BENEFIT_DENIAL_DATED = """Example Vision & Dental Benefits
+Date: 2026-08-15
+Member: Riley Sample    Reference: EXAMPLE-BEN-4410
+
+Your request for coverage of orthodontic treatment (braces) for your dependent has been denied.
+Reason: Orthodontic treatment for dependents is a benefit exclusion under your plan's Schedule of Benefits, section 4.2.
+
+You have the right to appeal. Your appeal must be received by 2026-10-30.
+To appeal, mail a written request to Example Vision & Dental Benefits, Appeals Unit, PO Box 1111, Example City.
+"""
+
+NO_DEADLINE_DENIAL = """Example Wellness Plan
+Date: 2026-08-10
+Member: Casey Sample    Reference: EXAMPLE-BEN-9002
+
+Your request for reimbursement of a gym membership under the wellness benefit has been denied.
+Reason: The wellness benefit only covers facilities on the approved list, and the submitted facility is not on that list.
+
+If you disagree with this decision, please contact Member Services to discuss your options.
+"""
+
+# Registry used by the web UI's "Load sample" buttons and by demo mode's letter-recognition check.
+# "marker" is a short substring unique to each letter (its reference number), used to tell a
+# recognized sample from arbitrary pasted text without calling the model.
+SAMPLES = [
+    {"id": "claim_denial", "label": "Claim denial: MRI not medically necessary (180 days from letter date)",
+     "marker": "EXAMPLE-CLAIM-7781", "text": CLAIM_DENIAL},
+    {"id": "prior_auth", "label": "Prior authorization denial: visit limit exceeded (60 days from letter date)",
+     "marker": "EXAMPLE-PA-3302", "text": PRIOR_AUTH_DENIAL},
+    {"id": "benefit_denial_dated", "label": "Benefit denial: orthodontic exclusion (explicit appeal-by date)",
+     "marker": "EXAMPLE-BEN-4410", "text": BENEFIT_DENIAL_DATED},
+    {"id": "no_deadline", "label": "Benefit denial: gym reimbursement (no stated deadline)",
+     "marker": "EXAMPLE-BEN-9002", "text": NO_DEADLINE_DENIAL},
+]
