@@ -20,6 +20,13 @@ Any OpenAI-compatible endpoint on the allowlist works too (Groq, Nebius Token Fa
 - The appeal-by date is computed in code from the letter's stated date or day count (`compute_deadline`), with the basis shown to the person.
 - The draft letter is built only from extracted facts and the person's own words.
 
+## Public hosting hardening
+AppealPal is designed to sit behind a public URL without a database or an account system:
+- **Per-IP rate limit.** Every POST request is throttled per client IP (`X-Forwarded-For` first hop, or the socket address) by an in-memory fixed-window limiter (`appealpal/web.py`, `RateLimiter`). Default 30 requests/minute, set with `APPEALPAL_RATE_LIMIT_PER_MIN`. Over budget returns `429` with `Retry-After: 60`.
+- **Request size limit.** `/api/*` POST bodies are capped (`MAX_CHARS` on the letter text, a hard byte cap on the whole request body); oversized requests are rejected with `413`/`400` before the body is parsed.
+- **No persistence.** Nothing AppealPal receives is written to disk: no file writes, no database, no log line containing letter text, no cache directory. A letter lives only in the request/response objects for the life of that one HTTP call. (Confirmed by inspection: the only `open()` in the source tree is a read-only load of `fixtures/scenarios.json` by the demo mode's fake model server; the only `.write()` calls write the HTTP response to the socket, not to a file.)
+- **`/healthz` reports mode**, not secrets: `{"ok": true, "mode": "demo"|"real"|"unconfigured", "model": "...", "rate_limit_per_minute": N}`. It never echoes the API key or base URL.
+
 ## Layout
 ```text
 appealpal/llm.py       OpenAI-compatible client with origin allowlist
